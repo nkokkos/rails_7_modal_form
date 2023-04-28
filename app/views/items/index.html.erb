@@ -1,0 +1,38 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Items</h1>
+
+<div id="items">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @items.each do |item| %>
+        <tr scope="row">
+          <td style="width: 25%">
+            <%= item.name %>
+          </td>
+          <td style="width: 50%">
+            <%= item.description %>
+          </td>
+          <td style="width: 25%">
+            <%= link_to "Show", item, class: "btn btn-secondary" %>
+            <%= link_to "Delete", item, class: "btn btn-danger", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
+            <%= link_to "Edit", edit_item_path(item), class: "btn btn-success" %>
+            <%= link_to "Edit Modal", edit_item_path(item), class: "btn btn-success btn-block", data: { turbo_frame: "remote_modal" } %> 
+       </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<p>
+    <%#= link_to "New item", new_item_path, class: "btn btn-primary"%>
+    <%= link_to "New item", new_item_path, class: "btn btn-primary", data: { turbo_frame: "remote_modal" }%>
+</p>

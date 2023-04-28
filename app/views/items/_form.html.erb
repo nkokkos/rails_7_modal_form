@@ -1,0 +1,98 @@
+<%= form_with(model: item) do |form| %>
+
+
+  <div class="mb-3">
+  <h5>TomSelect Ajax reload with Search<h5>
+    <%= select_tag "test_select_tag", nil,
+      { multiple: true, class: "form-select form-select-md mb-3", placeholder: 'Type minimun 3 characters to start searching',
+          data: {
+            controller: 'search',
+            search_url_value: autocomplete_items_path
+          }
+      }
+    %>
+  </div>
+
+
+  <div class="mb-3">
+    <%= form.label :name, style: "display: block", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+    <div style="color: red">
+      <% if item.errors.include?(:name) %>
+          <% item.errors.full_messages_for(:name).each do |error_message| %>
+            <%= error_message %>.
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, style: "display: block", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control" %>
+    <div style="color: red">
+      <% if item.errors.include?(:description) %>
+          <% item.errors.full_messages_for(:description).each do |error_message| %>
+            <%= error_message %>.
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3 form-check">
+    <%= form.label :can_send_email,class: "form-check-label" %>
+    <%= form.check_box :can_send_email, class: "form-check-input" %>
+    <br>
+    <div style="color: red">
+      <% if item.errors.include?(:can_send_email) %>
+          <% item.errors.full_messages_for(:can_send_email).each do |error_message| %>
+            <%= error_message %>.
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mb-3">
+     <%= form.label :body_temperature, style: "display: block", class: "form-label" %>
+     <%= form.text_field :body_temperature, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+     <%= form.label :price, style: "display: block", class: "form-label" %>
+     <%= form.text_field :price, class: "form-control" %>
+  </div>
+
+
+  <div class="mb-3">
+     <%= form.label :graduation_year, style: "display: block", class: "form-label" %>
+     <%= form.text_field :graduation_year, class: "form-control" %>
+  </div>
+
+   <div class="mb-3">
+     <%= form.label :birthday, style: "display: block", class: "form-label" %>
+     <%= form.date_select :birthday, class: "form-control" %>
+   </div>
+  
+    <div class="mb-3">
+     <%= form.label :favorite_time, style: "display: block", class: "form-label" %>
+     <%= form.time_select :favorite_time, class: "form-control" %>
+   </div>
+
+   <div class="mb-3">
+     <%= form.label  :status, style: "display: block", class: "form-label" %>
+     <%#= form.select :roles, options_for_select(Item.role_choices) %>
+     <%= form.select  :status, Item.statuses.keys, {:include_blank => false}, {class: "form-select"} %>
+   </div>
+ 
+   <div class="mb-3">
+     <%= form.label   :roles, style: "display: block", class: "form-label" %>
+     <%= form.select  :roles, 
+       options_for_select(Role.all.collect{ |u| [u.name, u.id]},(item.roles.collect {|u| u} if !item.roles.nil?)), 
+       {:include_blank => false}, {multiple: true, class: "form-select"} %>
+   </div>
+ 
+  <div class="mb-3 float-right">
+    <%= form.submit "Save", class: "btn btn-success btn-block float-right" %>
+  </div>
+ </br>
+
+<% end %>
