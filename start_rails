@@ -1,0 +1,3 @@
+rails assets:clobber
+rm -rf tmp/*.*
+foreman start -f Procfile.dev
