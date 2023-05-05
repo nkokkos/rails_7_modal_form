@@ -1,5 +1,6 @@
 class Item < ApplicationRecord
   validates_presence_of :name, :description
+  
   enum status: {
     submitted:   0,
     viewed: 	 1,
@@ -16,7 +17,7 @@ class Item < ApplicationRecord
 
   serialize :roles
 
-  has_many :item_students
+  has_many :item_students 
   has_many :students, through: :item_students
 
 end

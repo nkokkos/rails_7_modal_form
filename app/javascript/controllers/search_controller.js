@@ -4,14 +4,24 @@ import TomSelect      from "tom-select"
 
 // Connects to data-controller="search"
 export default class extends Controller {
-  static values = { url: String }
+  static values = { url: String, selected: String }
 
   connect() {
     this.element.setAttribute( "autocomplete", "off" );
-
+   
+    if (this.selectedValue == 'null') {
+      var selected_json_data   = new Array()
+      var selected_items_array = new Array();
+    } else {
+        var selected_json_data = JSON.parse(this.selectedValue)
+        var selected_items_array = new Array()
+        for(let i = 0; i < selected_json_data.length; i++) {
+          selected_items_array.push(selected_json_data[i].id)
+        }
+    }
+    
     var config = {
       plugins: ['clear_button', 'remove_button'],
-      options: [],
       shouldLoad:function(q){
         //console.log("should load");
         return q.length > 2;
@@ -20,7 +30,7 @@ export default class extends Controller {
         option: this.render_option,
         //item: this.render_option
         item: function(data, escape) {
-	  return `<div>${escape(data.last_name)}</div>`
+	  return `<div>${escape(data.first_name)}</div>`
         }
       },
       loadThrottle: 300,
@@ -31,7 +41,9 @@ export default class extends Controller {
       maxOptions: 10,
       valueField: 'id',
       labelField: 'first_name',
-      searchField: ['first_name', 'last_name','email'],
+      searchField: ['first_name'],
+      options: selected_json_data,
+      items: selected_items_array,
       //sortField: {
       //  field: "name",
       //  direction: "asc"
@@ -39,8 +51,9 @@ export default class extends Controller {
       create: false,
       load: (q, callback) => this.search(q, callback),
      }
-
-    new TomSelect(this.element, config)
+ 
+    let this_tom_select = new TomSelect(this.element, config)
+    this_tom_select.clearCache()
   }
 
 
@@ -56,7 +69,7 @@ export default class extends Controller {
      //this.element.clearOptions(); // remove existing options
      //this.element.sync(); // synchronise with the underlying SELECT 
      callback(await response.json)
-     this.element.sync();
+     //this.element.sync();
     } else {
       callback()
     }

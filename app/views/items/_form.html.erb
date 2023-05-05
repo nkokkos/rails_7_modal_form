@@ -2,8 +2,21 @@
 
 
   <div class="mb-3">
-  <h5>TomSelect Ajax reload with Search<h5>
+  <h5>TomSelect Ajax reload with Search with select_tag<h5>
     <%= select_tag "test_select_tag", nil,
+      { multiple: true, class: "form-select form-select-md mb-3", placeholder: 'Type minimun 3 characters to start searching',
+          data: {
+            controller: 'search',
+            search_url_value: autocomplete_items_path,
+            search_selected_value: @selected_for_tomselect.to_json
+          }
+      }
+    %>
+  </div>
+
+   <div class="mb-3">
+  <h5>TomSelect Ajax reload with Search with collection.select<h5>
+    <%#= form.select :item, :student_id, {},
       { multiple: true, class: "form-select form-select-md mb-3", placeholder: 'Type minimun 3 characters to start searching',
           data: {
             controller: 'search',
@@ -13,6 +26,25 @@
     %>
   </div>
 
+   <div class="mb-3">
+   <%#= form.select :item, :student_id, {}, { include_blank: true } %>
+   <%= form.select :student_ids, options_from_collection_for_select(Student.last(100), :id, :first_name, :selected => @selected),
+     {}, { multiple: true, :size => 10, class: "form-select form-select-md mb-3",
+     data: {selected_value: @selected_for_tomselect},
+     } %>
+
+   <%#= form.collection_select(:student_ids, Student.last(100), :id, :email_address,
+      {}, {multiple: true, class: "form-select form-select-md mb-3"}
+    ) %>
+
+   </div>
+  
+   <div class="mb-3"> 
+     selected_options: <%= @selected_for_tomselect.to_json %>
+   </div>
+   <div class="mb-3">
+     selected_items: <%= @selected %>
+   </div>
 
   <div class="mb-3">
     <%= form.label :name, style: "display: block", class: "form-label" %>

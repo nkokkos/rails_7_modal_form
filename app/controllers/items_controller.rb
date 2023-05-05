@@ -9,15 +9,19 @@ class ItemsController < ApplicationController
 
   # GET /items/1 or /items/1.json
   def show
+    @selected = @item.student_ids
   end
 
   # GET /items/new
   def new
     @item = Item.new
+    @selected = Array.new
   end
 
   # GET /items/1/edit
   def edit
+    @selected = @item.student_ids
+    @selected_for_tomselect = @selected.collect { |x| {id: Student.find(x).id,  first_name: Student.find(x).first_name} }
   end
 
   # POST /items or /items.json
@@ -25,10 +29,11 @@ class ItemsController < ApplicationController
     @item = Item.new(item_params)
 
     respond_to do |format|
-      if @item.save
+      if @item.save!
         format.html { redirect_to items_url, notice: "Item was successfully created." }
         format.json { render :show, status: :created, location: @item }
       else
+        puts @item.inspect
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @item.errors, status: :unprocessable_entity }
         format.turbo_stream { render :form_update, status: :unprocessable_entity }
@@ -103,6 +108,6 @@ class ItemsController < ApplicationController
     def item_params
       params.require(:item).permit(:name, :description, :can_send_email,
         :graduation_year, :body_temperature, :birthday, :favorite_time, :price, 
-        :status, :roles => [])
+        :status, roles: [], student_ids: [] )
     end
 end

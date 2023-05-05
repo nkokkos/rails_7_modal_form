@@ -2,3 +2,10 @@
 @import 'bootstrap-icons/font/bootstrap-icons';
 @import 'tom-select/dist/scss/tom-select.bootstrap5';
 
+
+.my_container {
+  height: 100px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
