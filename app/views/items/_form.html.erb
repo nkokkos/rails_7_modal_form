@@ -17,7 +17,7 @@
 
   <div class="mb-3">
     <h6>TomSelect Ajax reload with Search with select_tag:<h6>
-      <%#= select_tag "test_select_tag", nil,
+      <%#= select_tag :student_ids, nil,
         { multiple: true, 
           class: "form-select form-select-md mb-3", 
           placeholder: 'Type minimun 3 characters to start searching',
@@ -44,14 +44,14 @@
     ) %>
 
    </div>
-  
+  <hr>
    <div class="mb-3"> 
      selected_options: <%= @selected_for_tomselect.to_json %>
    </div>
    <div class="mb-3">
      selected_items: <%= @selected %>
    </div>
-
+  <hr>
   <div class="mb-3">
     <%= form.label :name, style: "display: block", class: "form-label" %>
     <%= form.text_field :name, class: "form-control" %>

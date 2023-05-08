@@ -21,7 +21,7 @@ class ItemsController < ApplicationController
   # GET /items/1/edit
   def edit
     @selected = @item.student_ids
-    @selected_for_tomselect = @selected.collect { |x| {id: Student.find(x).id,  first_name: Student.find(x).first_name} }
+    @selected_for_tomselect = @selected.collect { |x| {id: Student.find(x).id,  email_address: Student.find(x).email_address} }
   end
 
   # POST /items or /items.json
@@ -79,12 +79,13 @@ class ItemsController < ApplicationController
       # list = Category.order(:name).where("email like :q", q: "%#{params[:q]}%").or(Category.order(:name).where("email like :q", q: "%#{params[:q]}%"))
       # list = Category.where("email like :q", q: "%#{params[:q]}%").or(Category.where("email like :q", q: "%#{params[:q]}%"))
 
-      list = Student.where(search_string.join(' or '), search: "%#{params[:q]}%")
+      list = Student.order(:email_address).where(search_string.join(' or '), search: "%#{params[:q]}%")
+      
       render json: list.map { |u|
-        { id: u.id,
-          first_name: u.first_name,
-          last_name:  u.last_name,
-          email: u.email_address
+        { id: 		 u.id,
+          first_name: 	 u.first_name,
+          last_name:  	 u.last_name,
+          email_address: u.email_address
         }
       }
 
@@ -93,7 +94,7 @@ class ItemsController < ApplicationController
   end
 
   def columns
-    %w(first_name last_name email_address)
+    %w(email_address first_name last_name)
   end
 
 

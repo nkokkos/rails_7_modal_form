@@ -23,15 +23,14 @@ export default class extends Controller {
     var config = {
       plugins: ['clear_button', 'remove_button'],
       shouldLoad:function(q){
-        //console.log("should load");
         return q.length > 2;
       },
       render: {
         option: this.render_option,
-        //item: this.render_option
-        item: function(data, escape) {
-	  return `<div>${escape(data.first_name)}</div>`
-        }
+        item: this.render_option
+        //item: function(data, escape) {
+	//  return `<div>${escape(data.email_address)}</div>`
+        //}
       },
       loadThrottle: 300,
       // check this out in search items reload new data->
@@ -40,14 +39,14 @@ export default class extends Controller {
       maxItems: 10,
       maxOptions: 10,
       valueField: 'id',
-      labelField: 'first_name',
-      searchField: ['first_name'],
+      labelField: 'email_address',
+      searchField: ['email_address', 'first_name', 'last_name'],
       options: selected_json_data,
       items: selected_items_array,
-      //sortField: {
-      //  field: "name",
-      //  direction: "asc"
-      //},
+      sortField: {
+        field: "email_address",
+        direction: "asc"
+      },
       create: false,
       load: (q, callback) => this.search(q, callback),
      }
@@ -64,24 +63,19 @@ export default class extends Controller {
     })
 
     if(response.ok) {
-     //https://stackoverflow.com/questions/73890677/tomselect-refresh-options-in-dependent-dropdown-after-repeated-ajax-load
-     //this.element.clear(); // unselect previously selected elements
-     //this.element.clearOptions(); // remove existing options
-     //this.element.sync(); // synchronise with the underlying SELECT 
-     callback(await response.json)
-     //this.element.sync();
+      callback(await response.json)
     } else {
-      callback()
+        callback()
     }
   }
-
+  
   render_option(data, escape) {
-    if(data.email)
+    if(data.email_address)
       return `
       <div>
-        <div class="first_name">${escape(data.first_name)}</div>
-        <div class="last_name">${escape(data.last_name)}</div>
-        <div class="email">${escape(data.email)}</div>
+        <div class="first_name">${escape(data.email_address)}</div>
+        <div class="last_name">${escape(data.first_name)}</div>
+        <div class="email_address">${escape(data.last_name)}</div>
       </div>`
     else
       return `<div>${escape(data.first_name)}</div>`
