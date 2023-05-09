@@ -66,21 +66,12 @@ class ItemsController < ApplicationController
   end
 
   def autocomplete
-
     if params[:q].length > 2
-
       search_string = []
-
       columns.each do |term|
         search_string << "#{term} like :search"
       end
-
-      # the following commands don't seem to work:
-      # list = Category.order(:name).where("email like :q", q: "%#{params[:q]}%").or(Category.order(:name).where("email like :q", q: "%#{params[:q]}%"))
-      # list = Category.where("email like :q", q: "%#{params[:q]}%").or(Category.where("email like :q", q: "%#{params[:q]}%"))
-
       list = Student.order(:email_address).where(search_string.join(' or '), search: "%#{params[:q]}%")
-      
       render json: list.map { |u|
         { id: 		 u.id,
           first_name: 	 u.first_name,
@@ -88,15 +79,12 @@ class ItemsController < ApplicationController
           email_address: u.email_address
         }
       }
-
     end
-
   end
 
   def columns
     %w(email_address first_name last_name)
   end
-
 
 
   private

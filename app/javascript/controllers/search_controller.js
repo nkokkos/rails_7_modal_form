@@ -27,10 +27,10 @@ export default class extends Controller {
       },
       render: {
         option: this.render_option,
-        item: this.render_option
-        //item: function(data, escape) {
-	//  return `<div>${escape(data.email_address)}</div>`
-        //}
+        //item: this.render_option
+        item: function(data, escape) {
+	  return `<div>${escape(data.email_address)}</div>`
+        }
       },
       loadThrottle: 300,
       // check this out in search items reload new data->
@@ -68,7 +68,8 @@ export default class extends Controller {
         callback()
     }
   }
-  
+
+/*  
   render_option(data, escape) {
     if(data.email_address)
       return `
@@ -80,5 +81,18 @@ export default class extends Controller {
     else
       return `<div>${escape(data.first_name)}</div>`
   }
+*/
+
+render_option(data, escape) {
+    if(data.email_address)
+      return `
+      <div>
+        ${escape(data.first_name)}&nbsp;${escape(data.last_name)} | ${escape(data.email_address)}</div>
+      </div>`
+    else
+      return `<div>${escape(data.first_name)}</div>`
+  }
+
+
 
 }

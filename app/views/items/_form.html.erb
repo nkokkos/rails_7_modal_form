@@ -15,6 +15,7 @@
     %>
   </div>
 
+<!-- Write your comments here 
   <div class="mb-3">
     <h6>TomSelect Ajax reload with Search with select_tag:<h6>
       <%#= select_tag :student_ids, nil,
@@ -44,14 +45,17 @@
     ) %>
 
    </div>
-  <hr>
+
+-->
+   Debug Data:
    <div class="mb-3"> 
      selected_options: <%= @selected_for_tomselect.to_json %>
    </div>
    <div class="mb-3">
      selected_items: <%= @selected %>
    </div>
-  <hr>
+  
+
   <div class="mb-3">
     <%= form.label :name, style: "display: block", class: "form-label" %>
     <%= form.text_field :name, class: "form-control" %>

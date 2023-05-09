@@ -32,7 +32,6 @@
 <input id="input-tags" value="awesome,neat" autocomplete="off" placeholder="How cool is this?">
 
 
-
 <h1>Items</h1>
 
 <div id="items">
@@ -41,6 +40,7 @@
       <tr>
         <th scope="col">Name</th>
         <th scope="col">Description</th>
+       <th scope="col">Students</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -50,9 +50,17 @@
           <td style="width: 25%">
             <%= item.name %>
           </td>
-          <td style="width: 50%">
+          <td style="width: 25%">
             <%= item.description %>
           </td>
+          <td style="width: 25%">
+          Student Ids:  
+          <%= item.student_ids %>
+          <br>
+          Email_Addresses:
+            <%= item.students.each { |x| } %>
+          </td>
+
           <td style="width: 25%">
             <%= link_to "Show", item, class: "btn btn-secondary" %>
             <%= link_to "Delete", item, class: "btn btn-danger", method: :delete, data: { "turbo-method": :delete, turbo_confirm: "Are you sure?" } %>
